@@ -1,0 +1,196 @@
+
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{algpseudocode}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\hypersetup{%
+  colorlinks=true,
+  linkcolor=blue,
+  linkbordercolor={0 0 1}
+}
+ 
+\renewcommand\lstlistingname{Algorithm}
+\renewcommand\lstlistlistingname{Algorithms}
+\def\lstlistingautorefname{Alg.}
+
+\lstdefinestyle{Python}{
+    language        = Python,
+    frame           = lines, 
+    basicstyle      = \footnotesize,
+    keywordstyle    = \color{blue},
+    stringstyle     = \color{green},
+    commentstyle    = \color{red}\ttfamily
+}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+% Edit these as appropriate
+\newcommand\course{EECE 7205}
+\newcommand\CRN{CRN: 20635}
+\newcommand\hwnumber{2}                  % <-- homework number
+\newcommand\Name{Devesh Tarasia}
+\newcommand\Email{tarasia.dev@northeastern.edu}           % <-- NetID of person #2 (Comment this line out for problem sets)
+
+\pagestyle{fancyplain}
+\headheight 35pt
+%\lhead{\Name}
+\lhead{\Name\\\Email}                 % <-- Comment this line out for problem sets (make sure you are person #1)
+\chead{\textbf{\Large Homework \hwnumber}}
+\rhead{\course \\ \CRN}
+\lfoot{}
+\cfoot{}
+\rfoot{\small\thepage}
+\headsep 1.5em
+
+\begin{document}
+
+\section*{Problem 1}
+
+  \textbf{For groups of size 7},\\
+  $\lceil{n/7}\rceil$ groups in this case. Considering $x$ as the median-of-medians, 
+  we find atleast half of the groups have 4 or more elements greater than x. The groups that do not have elements larger than 
+  $x$ are the group with less than 7 elements (if $n \mod 7 \neq 0$) and the group which contains $x$ 
+  (as only 3 elements can be more than $x$).
+
+  The number of elements in each side of partition is atleast is $4*((1/2)*\lceil n/7\rceil-2)\geq 2*(n/7)-8$\\
+  So atmost, the elements in each side of partition is $n-(2*(n/7)-8)=5*n/7+8$.\\
+  So the recurrence relationship becomes:
+  $$T(n) = T(n/7)+T(5n/7+8)+\Theta (n) \; \; \; \forall \; \; n\geq n_o$$ 
+
+  We can now show by substitution that, $T(n) \in O(n)$ or $T(n) \leq cn$.
+  $$T(n) \leq c\left\lceil n/7\right\rceil + c(5n/7+8) + \Theta (n)$$
+  $$T(n) \leq cn/7 + c + 5cn/7 +8c + \Theta (n)$$
+  $$= cn - (cn/7 -9c -O(n)) \leq cn$$
+
+  Since we can pick $c$ and $n_0$ such that, $cn/7 \geq 9c+O(n)$  $\forall$ $n \geq n_0$. 
+  The $c$ has to be choosen with consideration of the $\Theta(n)$ term as well. In any case, the larger of the two values (from $O(n)$ and $cn/7 > 9c$)
+  can be selected and the condition will still hold. \\
+  
+  Since, $T(n) = T(n/7)+T(5n/7+8)+\Theta (n) >  n\; \; \; \forall \; n$,\\
+  we can easily say that $T(n) \in \Omega (n)$
+  
+  Thus $T(n) \in \Theta (n)$
+  
+  \\
+  \textbf{For groups of size 3,}\\
+  As in the case of groups of size 7 or 5, we find at least half of the groups have 2 or more elements greater than $x$.\\
+  So, number of elements greater than $x$ is $2(1/2*\lceil n/3\rceil-2) \geq n/3-4$. So, at most the elements on either side is $n-(n/3-4)=2n/3+4$.\\
+  So, the recurrence relation becomes, 
+  $$T(n) = T(n/3)+T(2n/3+4)+\Theta (n) \; \; \; \forall \; \; n\geq n_o$$
+  
+  Hypothesis, $T(n) \in O(n)$ or $T(n) \leq cn$
+  
+  Trying by substitution,
+  $$T(n) \leq c\lceil n/3\rceil + c(2n/3+4) + \Theta (n)$$
+  $$T(n) \leq cn/3 + c + 2cn/3 +4c +\Theta (n)$$
+  $$= cn + (5c+O(n)) \geq cn \;\;\; \forall \; n$$
+  
+  So, $T(n) \not\in O(n)$
+  
+  For the lower bound it can be said that $T(n) \in \Omega (n)$ from the recurrence equation.\\
+  But for a tighter bound, $(n\log n)$ is chosen.\\
+  Hypothesis: $T(n) \in \Omega (n\log n)$
+  By substituition,
+  $$T(n) \geq c\lceil n/3*\log {n/3}\rceil + c(2n/3*\log {2n/3}+4) + \Theta (n)$$
+  $$T(n) \geq cn/3 + 2cn/3*(1+\log n - \log 3) +4c +\Theta (n)$$
+  $$= 2c/3*n\log n + n - 2cn/3*\log 3+ 4  + \Theta (n) \geq c(n\log n) \;\;\; \forall \; n > n_0$$
+  An appropriate $n_0$ and $c$ can be selected to satisfy the above case.\\
+  Thus $T(n) \in \Omega (n\log n)$
+  
+\section*{Problem 2}
+  The median of the combined two arrays is the median of the two sorted arrays combined into an sorted array. 
+  We can have two cases,\\
+  Either largest element in $A$ is smaller than smallest element in $B$ or vice versa, in that case the largest element in the smaller array is the median of the two arrays. (One array is appended to another)\\
+  The other case is that the arrays merge in a different fashion than being appended. In this case, we can start the search for the median of the two arrays, $x$ by checking the current medians of $A$ and $B$, $m_A$ and $m_B$ respectively.\\
+  There are three cases to be considered:\\
+  If the $m_A = m_A$, then $x = m_A = m_B$\\
+  If $m_A > m_B$, then $x$ is present in $A[0\; ...\;n/2]$ or $B[n/2\; ...\; n]$\\
+  or vice versa,\\
+  If $m_B > m_A$, similarly, $x$ is present in $B[0\; ...\;n/2]$ or $A[n/2\; ...\; n]$\\
+  Using a divide and conquer approach, we can find the medians of the two  smaller arrays and apply the same conditional checks to reach to $x$.\\
+  \textit{Edge case:} For arrays of size two elements, we can start apply the merging procedure of the mergesort to a new array $C$ and $x=C[1]$. It will take a fixed time since size is known.
+  
+  The recursion in case the arrays are merged in some other fashion other being appended is,
+  $$T(n) = T(n/2) + O(1)$$
+  Since the array size is halved at each iteration.
+  
+  
+  By applying Master's theorem, ($a=1$,$b=2$ & $\log_b a = 1$ $\epsilon = 1$) 
+  $$T(n) = \Theta (\log n)$$\\
+  
+  
+  
+\section*{Problem 3}
+  In this problem, we need to find the $k^{th}$ smallest element and all elements smaller than it.\\
+  
+  Since, we have been given $O(n)$ time to do pre-processing, 
+  
+  We use a modified median-of-median method to find the $k^{th}$ element. This takes $O(n)$ time 
+  
+  After we find the $k^{th}$ we use quicksort's partition algorithm to partition the array around the $k^{th}$ element. This takes $\Theta(n)$ which means $T(n) \in O(n)$, where $T(n)$ is the running time of partition algorithm.
+  
+  Thus total pre-processing time: $O(n)+O(n)=O(n)$
+  
+  For printing out the elements, we need to print out the elements till $A[k-1]$, since we do not need the first $k$ smallest elements in a particular order, the running time is $O(k)$
+  
+  
+  %\textbf{Steps:}
+  
+  
+  
+  
+%\begin{enumerate}
+%  \item
+%   Problem 1 part 1 answer here.
+%  \item
+%    Problem 1 part 2 answer here.
+%
+%    Here is an example typesetting mathematics in \LaTeX
+%\begin{equation*}
+%    X(m,n) = \left\{\begin{array}{lr}
+%        x(n), & \text{for } 0\leq n\leq 1\\
+%        \frac{x(n-1)}{2}, & \text{for } 0\leq n\leq 1\\
+%        \log_2 \left\lceil n \right\rceil \qquad & \text{for } 0\leq n\leq 1
+%        \end{array}\right\} = xy
+%\end{equation*}
+%
+%    \item Problem 1 part 3 answer here.
+%
+%    Here is an example of how you can typeset algorithms.
+%    There are many packages to do this in \LaTeX.
+%     
+%    \lstset{caption={Caption for code}}
+%    \lstset{label={lst:alg1}}
+%     \begin{lstlisting}[style = Python]
+%    from package import Class # Mesh required for..
+%    
+%    cinstance = Class.from_obj('class.obj')
+%    cinstance.go()
+%    \end{lstlisting}
+%     
+%  \item Problem 1 part 4 answer here.
+%
+%    Here is an example of how you can insert a figure.
+%    \begin{figure}[!h]
+%    \centering
+%    %\includegraphics[width=0.3\linewidth]{heidi.jpg}
+%    \caption{Heidi attacked by a string.}
+%    \end{figure}
+%\end{enumerate}
+
+
+%\section*{Problem 2}
+% Rest of the work...
+
+\end{document}
