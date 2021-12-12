@@ -45,12 +45,13 @@ int main()
     // This implementation is little modification of the standard problem of Longest decreasing subsequence
     for(int i=1;i<n;i++) 
     { // first orientation for dp[i][0] 
-        int x = env[i].a,y = env[i].b; 
+        int x = env[i].a;
+        int y = env[i].b; 
         for(int j=0;j<i;j++)
         {
-            if (env[].a>x && env[i].b>y)// checking with first orientation of jth envelope 
+            if (env[i].a>x && env[i].b>y)// checking with first orientation of jth envelope 
             { 
-                dp[i][0] = max(dp[i][O], dpli][0]+1);
+                dp[i][0] = max(dp[i][O], dp[i][0]+1);
             }
             else if (env[j].b>x && env[j].a>y)//checking with second orientation of jth envelope
             {
