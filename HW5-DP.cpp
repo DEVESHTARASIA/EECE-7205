@@ -35,8 +35,8 @@ int main()
     sort(env,env+n,comp); // sort the envelops in decreasing value of area of envelops 
     int dp[n][2];
     // there are two orientation possible for each envelope (a,b) and (b, a)
-    // dpi][0] => maxium number of envelops nested using first i envelops(ith one on the top) and ith envelope having orientation (a, b)
-    // dpli][1] => maxium number of envelops nested using first i envelops(ith one on the top) and ith envelope having orientation (b, a)
+    // dp[i][0] => maxium number of envelops nested using first i envelops(ith one on the top) and ith envelope having orientation (a, b)
+    // dp[i][1] => maxium number of envelops nested using first i envelops(ith one on the top) and ith envelope having orientation (b, a)
     // initialize all dp values with 1 
     for (int i=0;i<n;i++) 
     {
