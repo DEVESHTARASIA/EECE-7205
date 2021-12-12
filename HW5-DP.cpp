@@ -49,9 +49,9 @@ int main()
         int y = env[i].b; 
         for(int j=0;j<i;j++)
         {
-            if (env[i].a>x && env[i].b>y)// checking with first orientation of jth envelope 
+            if (env[j].a>x && env[j].b>y)// checking with first orientation of jth envelope 
             { 
-                dp[i][0] = max(dp[i][0], dp[i][0]+1);
+                dp[i][0] = max(dp[i][0], dp[j][0]+1);
             }
             else if (env[j].b>x && env[j].a>y)//checking with second orientation of jth envelope
             {
